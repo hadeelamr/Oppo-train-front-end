@@ -1,43 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import MembersTable from './components/MembersTable';
-//import AddUserModal from './components/AddUserModal';
-import Sidebar from './components/Sidebar';
-import 'bootstrap/dist/css/bootstrap.min.css';
-
+import MembersTable from "./components/MembersTable";
 
 function App() {
-  const [showModal, setShowModal] = useState(false);
-
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    
+       
 
-        <h1 className="custom-title">My Title</h1>
-
-        <div className="d-flex">
-      {/* Sidebar */}
-      <Sidebar />
-      {/* Content */}
-      <div className="flex-grow-1 bg-light">
-        <MembersTable />
-      </div>
+        <div className="container mt-5">
+      <h1 className="mb-4">Members</h1>
+      <MembersTable />
     </div>
-
-        
       </header>
     </div>
   );
