@@ -1,45 +1,36 @@
-import React, { useState } from 'react';
-import logo from './logo.svg';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import './App.css';
 import MembersTable from './components/MembersTable';
-//import AddUserModal from './components/AddUserModal';
 import Sidebar from './components/Sidebar';
+import Forget from './components/forget';
+import Login from './components/Login';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-
 function App() {
-  const [showModal, setShowModal] = useState(false);
-
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <Router>
+      <Routes>
+        {/* صفحة تسجيل الدخول */}
+        <Route path="/" element={<Login />} />
 
-        <h1 className="custom-title">My Title</h1>
+        {/* صفحة نسيت كلمة المرور */}
+        <Route path="/forget" element={<Forget />} />
 
-        <div className="d-flex">
-      {/* Sidebar */}
-      <Sidebar />
-      {/* Content */}
-      <div className="flex-grow-1 bg-light">
-        <MembersTable />
-      </div>
-    </div>
-
-        
-      </header>
-    </div>
+        {/* صفحة الداشبورد */}
+        <Route
+          path="/dashboard"
+          element={
+            <div className="d-flex">
+              <Sidebar />
+              <div className="flex-grow-1 bg-light">
+                <MembersTable />
+              </div>
+            </div>
+          }
+        />
+      </Routes>
+    </Router>
   );
 }
 
