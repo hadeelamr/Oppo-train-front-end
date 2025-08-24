@@ -28,17 +28,14 @@ function App() {
 
         <h1 className="custom-title">My Title</h1>
 
-        <div className="container mt-5">
-          <div className="d-flex justify-content-between align-items-center mb-4">
-            <h2>Members List</h2>
-            <button className="btn btn-primary" onClick={() => setShowModal(true)}>
-              Add Member
-            </button>
-          </div>
-          <Sidebar />
-
-          <MembersTable />
-        </div>
+        <div className="d-flex">
+      {/* Sidebar */}
+      <Sidebar />
+      {/* Content */}
+      <div className="flex-grow-1 bg-light">
+        <MembersTable />
+      </div>
+    </div>
 
         <AddUserModal show={showModal} handleClose={() => setShowModal(false)} />
       </header>
