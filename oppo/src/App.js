@@ -1,26 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+// src/App.js
+import React from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-function App() {
+import TripsPage from "./pages/TripsPage";
+import EventsPage from "./pages/EventsPage";
+
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <h1 className='custom-title'>My Title</h1>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+      
+        <Route path="/" element={<Navigate to="/trips" replace />} />
+
+        
+        <Route path="/trips" element={<TripsPage />} />
+        <Route path="/events" element={<EventsPage />} />
+
+      
+        <Route path="*" element={<Navigate to="/trips" replace />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
-
-export default App;
