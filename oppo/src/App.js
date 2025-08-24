@@ -11,13 +11,13 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* صفحة تسجيل الدخول */}
+        {}
         <Route path="/" element={<Login />} />
 
-        {/* صفحة نسيت كلمة المرور */}
+        {}
         <Route path="/forget" element={<Forget />} />
 
-        {/* صفحة الداشبورد */}
+        {}
         <Route
           path="/dashboard"
           element={
