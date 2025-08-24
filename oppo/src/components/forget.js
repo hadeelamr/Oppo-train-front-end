@@ -1,8 +1,10 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import LoginImage from "../image/f031e5b1caa0632b7cb3d2dc29294fc91b0a771f.png";
 
-import Login from "./Login";
 export default function Forget() {
+  const navigate = useNavigate();
+
   const containerStyle = {
     display: "flex",
     justifyContent: "center",
@@ -78,13 +80,8 @@ export default function Forget() {
   return (
     <div style={containerStyle}>
       <div style={boxStyle}>
-        {/* Form */}
         <div style={formStyle}>
-          {/* Back to Login */}
-          <div
-            style={backStyle}
-            onClick={() => (window.location.href = "/Login")}
-          >
+          <div style={backStyle} onClick={() => navigate("/")}>
             <span style={arrowStyle}>←</span> Back to Login
           </div>
 
@@ -97,7 +94,6 @@ export default function Forget() {
           <button style={buttonStyle}>Reset the password</button>
         </div>
 
-        {/* Image */}
         <img src={LoginImage} alt="login illustration" style={imageStyle} />
       </div>
     </div>

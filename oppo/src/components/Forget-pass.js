@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import LoginImage from "../image/f031e5b1caa0632b7cb3d2dc29294fc91b0a771f.png";
-import Login from "./Login";
 
 export default function ForgetPass() {
   const [resendClicked, setResendClicked] = useState(false);
@@ -10,7 +9,7 @@ export default function ForgetPass() {
     justifyContent: "center",
     alignItems: "flex-start",
     minHeight: "100vh",
-    paddingTop: "96px", // كانت 80px -> صارت 96px = 6 فراغات تقريبا
+    paddingTop: "96px", // 6 فراغات تقريبا
     backgroundColor: "#FFFFFFFF",
   };
 
@@ -92,14 +91,10 @@ export default function ForgetPass() {
   };
 
   return (
-    <div style={containerStyle}>
+   <div style={containerStyle}>
       <div style={boxStyle}>
-        {/* Form */}
         <div style={formStyle}>
-          <div
-            style={backStyle}
-            onClick={() => (window.location.href = "/Login")}
-          >
+          <div style={backStyle} onClick={() => navigate("/")}>
             <span style={arrowStyle}>←</span> Back to Login
           </div>
 
@@ -108,7 +103,7 @@ export default function ForgetPass() {
           </h1>
           <p>An authentication code has been sent to your email.</p>
           <label>Code</label>
-          <input type="email" placeholder="Enter your code" style={inputStyle} />
+          <input type="text" placeholder="Enter your code" style={inputStyle} />
 
           <p>
             Didn’t receive a code?{" "}

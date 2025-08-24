@@ -1,6 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import LoginImage from "../image/f031e5b1caa0632b7cb3d2dc29294fc91b0a771f.png";
-import Forget from "../components/forget";
+
 export default function Login() {
   const containerStyle = {
     display: "flex",
@@ -56,7 +57,6 @@ export default function Login() {
   return (
     <div style={containerStyle}>
       <div style={boxStyle}>
-        {/* Left Side - Form */}
         <div style={formStyle}>
           <h1 style={{ fontSize: "28px", fontWeight: "bold", marginBottom: "10px" }}>
             Login
@@ -70,18 +70,16 @@ export default function Login() {
           <input type="password" placeholder="Enter your password" style={inputStyle} />
 
           <div style={{ textAlign: "right", marginBottom: "20px" }}>
-            <a
-              href="./Forget.js" // رابط صفحة Forgot
-              style={{ color: "#2563eb", textDecoration: "underline", fontSize: "14px" }}
-            >
+            <Link to="/forget" style={{ color: "#2563eb", textDecoration: "underline", fontSize: "14px" }}>
               Forgot Password
-            </a>
+            </Link>
           </div>
 
-          <button style={buttonStyle}>Log in</button>
+          <Link to="/dashboard">
+            <button style={buttonStyle}>Log in</button>
+          </Link>
         </div>
 
-        {/* Right Side - Image */}
         <div style={{ flex: 1 }}>
           <img src={LoginImage} alt="login illustration" style={imageStyle} />
         </div>
