@@ -37,6 +37,7 @@ const AddUserModal = ({ show, handleClose }) => (
                             <option>Male</option>
                             <option>Female</option>
                         </Form.Select>
+                        
                     </Form.Group>
                     <Form.Group className="col-md-6 mb-3">
                         <Form.Label>Date of Birth</Form.Label>

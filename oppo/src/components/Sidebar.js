@@ -30,5 +30,4 @@ const Sidebar = () => (
         </button>
     </div>
 );
-
 export default Sidebar;
