@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import MembersTable from './components/MembersTable';
 //import AddUserModal from './components/AddUserModal';
-//import Sidebar from './components/Sidebar';
+import Sidebar from './components/Sidebar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -28,11 +28,14 @@ function App() {
 
         <h1 className="custom-title">My Title</h1>
 
-       
+        <div className="d-flex">
+      {/* Sidebar */}
+      <Sidebar />
+      {/* Content */}
       <div className="flex-grow-1 bg-light">
         <MembersTable />
       </div>
-    
+    </div>
 
         
       </header>
