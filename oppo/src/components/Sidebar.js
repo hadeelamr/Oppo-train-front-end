@@ -1,7 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import './Sidebar.css'; // تأكدي من المسار حسب مكان الملف
+import './Sidebar.css'; 
 
 const Sidebar = () => (
     <div className="sidebar vh-100 p-3 border-end d-flex flex-column justify-content-between" style={{ width: '250px' }}>
