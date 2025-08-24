@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const members = [
+const initialMembers = [
   { name: "Jane Cooper", email: "jessica.hanson@example.com", status: "Active", avatar: "JC" },
   { name: "Jane Cooper", email: "willie.jennings@example.com", status: "Active", avatar: "JC" },
   { name: "Jane Cooper", email: "d.chambers@example.com", status: "Inactive", avatar: "JC" },
@@ -27,9 +27,10 @@ const getBadgeClass = (status) => {
 };
 
 const MembersTable = () => {
+  const [members, setMembers] = useState(initialMembers); // هنا البيانات صارت ديناميكية
+
   return (
     <div className="p-4">
-      {}
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h4 className="fw-bold">Members</h4>
         <div>
@@ -38,7 +39,6 @@ const MembersTable = () => {
         </div>
       </div>
 
-      {}
       <div className="table-responsive bg-white shadow-sm rounded p-3">
         <table className="table align-middle mb-0">
           <thead>
@@ -52,7 +52,6 @@ const MembersTable = () => {
           <tbody>
             {members.map((member, idx) => (
               <tr key={idx}>
-                {}
                 <td>
                   <div className="d-flex align-items-center">
                     <div
@@ -64,15 +63,12 @@ const MembersTable = () => {
                     <span>{member.name}</span>
                   </div>
                 </td>
-                {}
                 <td>{member.email}</td>
-                {}
                 <td>
                   <span className={`badge ${getBadgeClass(member.status)}`}>
                     {member.status}
                   </span>
                 </td>
-                {}
                 <td>
                   <button className="btn btn-sm btn-outline-success me-2">
                     <i className="bi bi-chat-dots"></i>
