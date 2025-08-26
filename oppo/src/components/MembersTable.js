@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import AddUserModal from "./AddUserModal";
+import MessagePopup from "./MessagePopup";
 
 const membersData = [
   { id: 1, name: "Jane Cooper", email: "jessica.hanson@example.com", status: "Active", avatar: "JC" },
@@ -42,6 +44,11 @@ const MembersTable = () => {
   const [selectedMember, setSelectedMember] = useState(null);
   const [notification, setNotification] = useState(null);
 
+  const [showAddModal, setShowAddModal] = useState(false);
+
+  const [showMessagePopup, setShowMessagePopup] = useState(false);
+  const [popupUser, setPopupUser] = useState(null);
+
   const handleOpenModal = (member) => {
     setSelectedMember(member);
     setShowModal(true);
@@ -83,16 +90,33 @@ const MembersTable = () => {
   };
 
   const handleMessage = (member) => {
-    alert(`Sending message to ${member.name} (${member.email})`);
+    setPopupUser(member);
+    setShowMessagePopup(true);
   };
 
   const handleSendMessageToAll = () => {
-    const userCount = members.length;
-    alert(`Sending message to all ${userCount} users`);
+    setPopupUser(null);
+    setShowMessagePopup(true);
   };
 
   const closeNotification = () => {
     setNotification(null);
+  };
+
+  const handleAddUser = (formData) => {
+    const fullName = `${formData.firstName} ${formData.lastName}`;
+    const initials = fullName.split(" ").map(n => n[0]).join("").toUpperCase();
+
+    const newUser = {
+      id: members.length + 1,
+      name: fullName,
+      email: formData.email,
+      status: "Pending",
+      avatar: initials
+    };
+
+    setMembers([...members, newUser]);
+    setShowAddModal(false); 
   };
 
   return (
@@ -117,7 +141,7 @@ const MembersTable = () => {
       <div className="page-header">
         <div className="page-title"></div>
         <div className="header-actions">
-          <button className="btn-add-member">Add Member</button>
+          <button className="btn-add-member" onClick={() => setShowAddModal(true)}>Add Member</button>
           <button className="btn-send-message" onClick={handleSendMessageToAll}>
             Send Message
           </button>
@@ -134,7 +158,7 @@ const MembersTable = () => {
             </tr>
           </thead>
           <tbody>
-            {members.map((member, index) => (
+            {members.map((member) => (
 <tr key={member.id} className="member-row">
   <td className="user-cell">
     <div className="user-info">
@@ -168,11 +192,25 @@ const MembersTable = () => {
     </div>
   </td>
 </tr>
-
             ))}
           </tbody>
         </table>
       </div>
+
+      {}
+      <AddUserModal 
+        show={showAddModal} 
+        handleClose={() => setShowAddModal(false)} 
+        handleAddUser={handleAddUser} 
+      />
+
+      {}
+      <MessagePopup
+        show={showMessagePopup}
+        handleClose={() => setShowMessagePopup(false)}
+        members={members}
+        selectedUser={popupUser}
+      />
 
       {showModal && (
         <div className="delete-modal-overlay">
