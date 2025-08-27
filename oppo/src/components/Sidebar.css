@@ -1,0 +1,39 @@
+/* Sidebar.css */
+.sidebar {
+    background-color: #A7B8CC;
+    color: #374151;
+}
+.sidebar h5 {
+    color: #374151;
+}
+
+.sidebar .nav-link {
+    color: #374151;
+    padding: 10px 15px;
+    border-radius: 8px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.sidebar .nav-link:hover {
+    background-color: #D1D5DB;
+    color: #374151;
+}
+
+.sidebar .nav-link.active {
+    background-color: #F1F5F9;
+    color: #374151;
+}
+
+.sidebar .nav-link i {
+    font-size: 1.2rem;
+}
+
+.sidebar .btn-outline-danger {
+    color: #374151;
+    border-color: transparent;
+    transition: background-color 0.2s ease;
+}
+
+.sidebar .btn-outline-danger:hover {
+    background-color: #D1D5DB;
+}
