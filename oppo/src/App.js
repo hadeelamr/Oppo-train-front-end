@@ -1,23 +1,16 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import MembersTable from "./components/MembersTable";
-import Sidebar from "./components/Sidebar";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import EventOverview from "./pages/EventOverview.js";
+import EventAttendees from "./pages/EventAttendees.js";
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-      <div className="d-flex">
-        <Sidebar />
-
-        <div className="container mt-5">
-      <h1 className="mb-4">Members</h1>
-      <MembersTable />
-    </div>
-      </div>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/events/:id/overview" element={<EventOverview />} />
+        <Route path="/events/:id/attendees" element={<EventAttendees />} />      
+      </Routes>
+    </BrowserRouter>
   );
 }
 
