@@ -10,7 +10,7 @@ const Sidebar = () => (
             <h5 className="mb-4">AIAS Chapter University</h5>
             <ul className="nav flex-column">
                 <li className="nav-item">
-                    <Link className="nav-link active d-flex align-items-center" to="/">
+                    <Link className="nav-link d-flex align-items-center" to="/">
                         <i className="bi bi-people-fill me-2"></i> Members
                     </Link>
                 </li>
