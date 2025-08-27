@@ -1,16 +1,14 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import EventOverview from "./pages/EventOverview.js";
-import EventAttendees from "./pages/EventAttendees.js";
+// src/App.js
+import React from 'react';
 
+import ResourcesManagement from './pages/Resources/ResourcesManagement';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/events/:id/overview" element={<EventOverview />} />
-        <Route path="/events/:id/attendees" element={<EventAttendees />} />      
-      </Routes>
-    </BrowserRouter>
+    <div className="main-layout">
+     
+      <ResourcesManagement />
+    </div>
   );
 }
 
