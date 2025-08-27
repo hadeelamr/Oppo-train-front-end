@@ -1,16 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
-import './././component/Dashboard'
-import Dashboard from './././component/Dashboard';
+// src/App.js
+import React from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-function App() {
+import TripsPage from "./pages/TripsPage";
+import EventsPage from "./pages/EventsPage";
+
+export default function App() {
   return (
-    <div className="App">
+    <BrowserRouter>
+      <Routes>
       
-     <Dashboard />
- 
-    </div>
+        <Route path="/" element={<Navigate to="/trips" replace />} />
+
+        
+        <Route path="/trips" element={<TripsPage />} />
+        <Route path="/events" element={<EventsPage />} />
+
+      
+        <Route path="*" element={<Navigate to="/trips" replace />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
-
-export default App;
