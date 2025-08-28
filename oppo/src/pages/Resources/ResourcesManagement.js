@@ -1,45 +1,60 @@
-
 import React, { useState } from 'react';
 import { Container, Row, Col, Button, Card } from 'react-bootstrap';
 import ResourceItem from '../../components/ResourceItem';
-
-import ResourceFormModal from '../../components/ResourceFormModal'; 
+import ResourceFormModal from '../../components/ResourceFormModal';
 import './ResourcesManagement.css';
 
-
-const resourcesData = [
-    { id: 1, initials: 'JC', title: 'Introduction to AI', type: 'Youtube Video', description: 'Discover the basics of Artificial Intelligence...', guest: 'Zahaa muhanna', color: '#7289da' },
-    
-    { id: 2, initials: 'JC', title: 'Python programming', type: 'Course', color: '#7289da' },
-    { id: 3, initials: 'JC', title: 'Data Science', type: 'Course', color: '#7289da' },
-    { id: 4, initials: 'JC', title: 'Database in Firestore', type: 'Youtube Video', color: '#7289da' },
-    { id: 5, initials: 'JC', title: 'Authentication form in js', type: 'Youtube Video', color: '#7289da' },
-    { id: 6, img: 'https://i.pravatar.cc/40?img=1', title: 'Deep Learning Tutorial', type: 'Google Drive' },
-    { id: 7, img: 'https://i.pravatar.cc/40?img=2', title: 'C++ Slides', type: 'Google Drive' },
-    { id: 8, initials: 'DL', title: 'Introduction to Software Engineer', type: 'Course', color: '#99aab5' },
-    { id: 9, initials: 'JB', title: 'UX/UI Tutorial', type: 'Youtube Video', color: '#57f287' },
+const initialResourcesData = [
+  { id: 1, initials: 'JC', title: 'Introduction to AI', type: 'Youtube Video', description: 'Discover the basics of Artificial Intelligence...', guest: 'Zahaa muhanna', url: 'youtube.com/ai', color: '#7289DA' },
+  { id: 2, initials: 'JC', title: 'Python programming', type: 'Course', color: '#7289DA' },
+  { id: 3, initials: 'JC', title: 'Data Science', type: 'Course', color: '#7289DA' },
+  { id: 4, initials: 'JC', title: 'Database in Firestore', type: 'Youtube Video', color: '#7289DA' },
+  { id: 5, initials: 'JC', title: 'Authentication form in js', type: 'Youtube Video', color: '#7289DA' },
+  { id: 6, img: 'https://i.pravatar.cc/40?img=1', title: 'Deep Learning Tutorial', type: 'Google Drive' },
+  { id: 7, img: 'https://i.pravatar.cc/40?img=2', title: 'C++ Slides', type: 'Google Drive' },
+  { id: 8, initials: 'DL', title: 'Introduction to Software Engineer', type: 'Course', color: '#99AAB5' },
+  { id: 9, initials: 'JB', title: 'UX/UI Tutorial', type: 'Youtube Video', color: '#57F287' },
 ];
 
 const ResourcesManagement = () => {
-  
-  const [showAddModal, setShowAddModal] = useState(false);
-
-
-  const [showEditModal, setShowEditModal] = useState(false);
+  const [resources, setResources] = useState(initialResourcesData);
+  const [showModal, setShowModal] = useState(false);
   const [selectedResource, setSelectedResource] = useState(null);
 
- 
-  const handleCloseAddModal = () => setShowAddModal(false);
-  const handleShowAddModal = () => setShowAddModal(true);
-
-  
-  const handleCloseEditModal = () => {
-    setShowEditModal(false);
-    setSelectedResource(null); 
+  const handleShowModal = (resource = null) => {
+    setSelectedResource(resource);
+    setShowModal(true);
   };
-  const handleShowEditModal = (resource) => {
-    setSelectedResource(resource); 
-    setShowEditModal(true);
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedResource(null);
+  };
+
+  const handleSave = (formData) => {
+    if (formData.id) {
+      setResources(prevResources =>
+        prevResources.map(resource =>
+          resource.id === formData.id ? { ...resource, ...formData } : resource
+        )
+      );
+    } else {
+      const newResource = {
+        ...formData,
+        id: Date.now(),
+        initials: formData.title.substring(0, 2).toUpperCase(),
+        color: '#' + Math.floor(Math.random() * 16777215).toString(16)
+      };
+      setResources(prevResources => [newResource, ...prevResources]);
+    }
+  };
+
+  const handleDeleteResource = (resourceIdToDelete) => {
+    if (window.confirm("Are you sure you want to delete this resource?")) {
+      setResources(prevResources =>
+        prevResources.filter(resource => resource.id !== resourceIdToDelete)
+      );
+    }
   };
 
   return (
@@ -47,11 +62,9 @@ const ResourcesManagement = () => {
       <main className="main-content">
         <Container fluid>
           <Row className="mb-4 align-items-center">
-            <Col>
-              <h1 className="fw-bold">Resources Management</h1>
-            </Col>
+            <Col><h1 className="fw-bold">Resources Management</h1></Col>
             <Col xs="auto">
-              <Button onClick={handleShowAddModal}>Add Resource</Button>
+              <Button onClick={() => handleShowModal()}>Add Resource</Button>
             </Col>
           </Row>
 
@@ -63,12 +76,12 @@ const ResourcesManagement = () => {
                 <div style={{ width: '80px' }}></div>
               </div>
               <div>
-                {resourcesData.map(resource => (
-                  <ResourceItem 
-                    key={resource.id} 
+                {resources.map(resource => (
+                  <ResourceItem
+                    key={resource.id}
                     resource={resource}
-                   
-                    onEdit={() => handleShowEditModal(resource)} 
+                    onEdit={() => handleShowModal(resource)}
+                    onDelete={() => handleDeleteResource(resource.id)}
                   />
                 ))}
               </div>
@@ -77,14 +90,11 @@ const ResourcesManagement = () => {
         </Container>
       </main>
 
-    
-      <ResourceFormModal show={showAddModal} handleClose={handleCloseAddModal} />
-      
-     
-      <ResourceFormModal 
-        show={showEditModal} 
-        handleClose={handleCloseEditModal} 
+      <ResourceFormModal
+        show={showModal}
+        handleClose={handleCloseModal}
         resource={selectedResource}
+        onSave={handleSave}
       />
     </>
   );

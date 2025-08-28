@@ -1,18 +1,57 @@
-
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form, InputGroup } from 'react-bootstrap';
 import { BsArrowRight } from 'react-icons/bs';
 
-
-const ResourceFormModal = ({ show, handleClose, resource }) => {
- 
+const ResourceFormModal = ({ show, handleClose, resource, onSave }) => {
   const isEditMode = Boolean(resource);
 
+  const [formData, setFormData] = useState({
+    title: '',
+    type: 'Youtube Video',
+    description: '',
+    guest: '',
+    url: '',
+  });
+
+  useEffect(() => {
+    if (show) {
+      if (isEditMode && resource) {
+        setFormData({
+          title: resource.title || '',
+          type: resource.type || 'Youtube Video',
+          description: resource.description || '',
+          guest: resource.guest || '',
+          url: resource.url || '',
+        });
+      } else {
+        setFormData({
+          title: '',
+          type: 'Youtube Video',
+          description: '',
+          guest: '',
+          url: '',
+        });
+      }
+    }
+  }, [resource, isEditMode, show]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prevData => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = () => {
+    onSave({ ...formData, id: resource?.id });
+    handleClose();
+  };
+
   return (
-    <Modal show={show} onHide={handleClose} centered size="lg" dialogClassName="add-resource-modal">
+    <Modal show={show} onHide={handleClose} centered dialogClassName="add-resource-modal">
       <Modal.Header>
         <Modal.Title as="h2" className="fw-bold">
-         
           {isEditMode ? 'Edit this resource' : 'Add new Resource'}
         </Modal.Title>
         <button className="close-button" onClick={handleClose}>
@@ -23,17 +62,18 @@ const ResourceFormModal = ({ show, handleClose, resource }) => {
         <Form>
           <Form.Group className="mb-4" controlId="formTitle">
             <Form.Label>Title *</Form.Label>
-           
-            <Form.Control 
-              type="text" 
-              placeholder="enter the title of the resource" 
-              defaultValue={resource?.title || ''}
+            <Form.Control
+              type="text"
+              name="title"
+              placeholder="enter the title of the resource"
+              value={formData.title}
+              onChange={handleChange}
             />
           </Form.Group>
 
           <Form.Group className="mb-4" controlId="formType">
             <Form.Label>Type *</Form.Label>
-            <Form.Select aria-label="Select resource type" defaultValue={resource?.type || ''}>
+            <Form.Select name="type" value={formData.type} onChange={handleChange}>
               <option>Youtube Video</option>
               <option>Course</option>
               <option>Google Drive</option>
@@ -43,20 +83,24 @@ const ResourceFormModal = ({ show, handleClose, resource }) => {
 
           <Form.Group className="mb-4" controlId="formDescription">
             <Form.Label>Description *</Form.Label>
-            <Form.Control 
-              as="textarea" 
+            <Form.Control
+              as="textarea"
+              name="description"
               rows={3}
-              placeholder="enter the description of the resource" 
-              defaultValue={resource?.description || 'Discover the basics of Artificial Intelligence...'} 
+              placeholder="enter the description of the resource"
+              value={formData.description}
+              onChange={handleChange}
             />
           </Form.Group>
 
           <Form.Group className="mb-4" controlId="formGuest">
             <Form.Label>Guest *</Form.Label>
-            <Form.Control 
-              type="text" 
-              placeholder="enter the name of the guest" 
-              defaultValue={resource?.guest || 'Zahaa muhanna'} 
+            <Form.Control
+              type="text"
+              name="guest"
+              placeholder="enter the name of the guest"
+              value={formData.guest}
+              onChange={handleChange}
             />
           </Form.Group>
 
@@ -64,17 +108,18 @@ const ResourceFormModal = ({ show, handleClose, resource }) => {
             <Form.Label>Website URL</Form.Label>
             <InputGroup>
               <InputGroup.Text>https://</InputGroup.Text>
-              <Form.Control 
-                placeholder="Link goes here" 
-                defaultValue={resource?.url || ''} 
+              <Form.Control
+                name="url"
+                placeholder="Link goes here"
+                value={formData.url}
+                onChange={handleChange}
               />
             </InputGroup>
           </Form.Group>
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="primary" size="lg" className="w-100 add-resource-btn" onClick={handleClose}>
-          
+        <Button variant="primary" size="lg" className="w-100 add-resource-btn" onClick={handleSubmit}>
           {isEditMode ? 'Save' : 'Add Resource'}
         </Button>
       </Modal.Footer>

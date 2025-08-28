@@ -1,9 +1,7 @@
-
 import React from 'react';
 import { BsPencilSquare, BsTrash } from 'react-icons/bs';
 
-
-const ResourceItem = ({ resource, onEdit }) => {
+const ResourceItem = ({ resource, onEdit, onDelete }) => {
   return (
     <div className="resource-item">
       <div className="resource-info">
@@ -18,12 +16,11 @@ const ResourceItem = ({ resource, onEdit }) => {
       </div>
       <div className="resource-type">{resource.type}</div>
       <div className="resource-actions">
-        
         <BsPencilSquare className="action-edit" onClick={onEdit} />
-        <BsTrash className="action-delete" />
+        <BsTrash className="action-delete" onClick={onDelete} />
       </div>
     </div>
   );
 };
 
-export default ResourceItem;
+export default ResourceItem;
