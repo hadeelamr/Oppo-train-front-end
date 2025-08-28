@@ -5,14 +5,19 @@ import MembersTable from "./components/MembersTable";
 import Sidebar from "./components/Sidebar";
 import Events from './pages/EventsPage';
 import Resources from './pages/Resources/ResourcesManagement';
-import Login from './components/Login';
+import TripsPage from "./pages/TripsPage";
+import EventOverview from "./pages/EventOverview";
+import EventAttendees from "./pages/EventAttendees";
+import AddEventPage from "./pages/AddEventPage";
+import EditEventPage from "./pages/EditEventPage";
+import Login from "./components/Login";  // login اللي عدلناه
 
-function App() {
+export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   return (
     <Router>
-      {/* لو المستخدم مش داخل، يروح دايمًا عالـ Login */}
+      {/* إذا المستخدم مش عامل login → يضل في صفحة Login */}
       {!isLoggedIn ? (
         <Routes>
           <Route path="/" element={<Login onLogin={() => setIsLoggedIn(true)} />} />
@@ -23,11 +28,16 @@ function App() {
           <Sidebar />
           <div className="flex-grow-1 p-4">
             <Routes>
-              <Route path="/members" element={<MembersTable />} />
+              <Route path="/" element={<MembersTable />} />
               <Route path="/events" element={<Events />} />
+              <Route path="/events/new" element={<AddEventPage />} />
+              <Route path="/events/:id" element={<Navigate to="overview" replace />} />
+              <Route path="/events/:id/overview" element={<EventOverview />} />
+              <Route path="/events/:id/attendees" element={<EventAttendees />} />
+              <Route path="/events/:id/edit" element={<EditEventPage />} />
+              <Route path="/trips" element={<TripsPage />} />
               <Route path="/resources" element={<Resources />} />
-              {/* أي رابط غلط يرجع لـ members */}
-              <Route path="*" element={<Navigate to="/members" />} />
+              <Route path="*" element={<Navigate to="/events" replace />} />
             </Routes>
           </div>
         </div>
@@ -35,5 +45,3 @@ function App() {
     </Router>
   );
 }
-
-export default App;
