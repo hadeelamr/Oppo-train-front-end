@@ -1,4 +1,4 @@
-// src/components/EventHeaderCard.jsx
+
 import React from "react";
 
 function toDate(value) {
@@ -82,18 +82,6 @@ export default function EventHeaderCard({
                 <i className="bi bi-people me-2" aria-hidden="true" />{capacity}
               </li>
             </ul>
-
-            <div className="d-flex flex-wrap gap-2">
-              {badges.status && <span className="badge text-bg-success text-capitalize">{badges.status}</span>}
-              {badges.type && <span className="badge text-bg-secondary">{badges.type}</span>}
-              {badges.createdBy && (
-                <span className="badge text-bg-light border">
-                  <i className="bi bi-person-fill me-1" /> {badges.createdBy}
-                </span>
-              )}
-              {badges.userPrice != null && <span className="badge text-bg-primary">User: {badges.userPrice}</span>}
-              {badges.memberPrice != null && <span className="badge text-bg-info">Member: {badges.memberPrice}</span>}
-            </div>
           </div>
         </div>
       </div>

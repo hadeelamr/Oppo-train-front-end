@@ -1,4 +1,3 @@
-// src/pages/EventOverview.js
 import { useEffect, useState, useMemo } from "react";
 import { Link, NavLink, useParams, useNavigate } from "react-router-dom";
 import { getEvent, deleteEvent } from "../services/eventsApi";

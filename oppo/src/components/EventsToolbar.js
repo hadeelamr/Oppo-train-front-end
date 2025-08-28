@@ -1,6 +1,6 @@
+
 import React from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
-
 
 export default function EventsToolbar({ onSearch }) {
   const location = useLocation();
@@ -10,9 +10,7 @@ export default function EventsToolbar({ onSearch }) {
   const isEvent = location.pathname.startsWith("/events");
 
   const handleSearchChange = (e) => {
-    if (onSearch) {
-      onSearch(e.target.value);
-    }
+    onSearch?.(e.target.value);
   };
 
   return (
@@ -34,19 +32,19 @@ export default function EventsToolbar({ onSearch }) {
       </div>
 
       <div className="d-flex align-items-center gap-2">
-        <div className="input-group w-auto" style={{ minWidth: '260px' }}>
+        <div className="input-group w-auto" style={{ minWidth: "260px" }}>
           <span className="input-group-text bg-white border-end-0">
             <i className="bi bi-search text-muted"></i>
           </span>
-          <input 
-            className="form-control border-start-0 shadow-none" 
-            placeholder="Search" 
+          <input
+            className="form-control border-start-0 shadow-none"
+            placeholder="Search"
             onChange={handleSearchChange}
           />
         </div>
-        <button 
-          className="btn btn-primary px-3" 
-          onClick={() => navigate("/events")}
+        <button
+          className="btn btn-primary px-3"
+          onClick={() => navigate("/events/new")}
         >
           Add Event
         </button>

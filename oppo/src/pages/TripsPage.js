@@ -1,73 +1,59 @@
+
 import React, { useState } from "react";
-import { SidebarPlaceholder, EventsToolbar, EventItemCard, PaginationStatic } from "../components";
+import { useNavigate } from "react-router-dom"; 
+import { EventsToolbar, EventItemCard, PaginationStatic } from "../components";
 import { useDataFetching } from "../hooks/useDataFetching";
 
 const ITEMS_PER_PAGE = 4;
 
 export default function TripsPage() {
+  const navigate = useNavigate(); 
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
-  
-  
-  const { data: trips, loading, error, usingMockData } = useDataFetching('trips');
-  
-  const filteredTrips = trips.filter(trip => 
-    trip.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    trip.discerption.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    trip.location.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-  
-  const totalPages = Math.ceil(filteredTrips.length / ITEMS_PER_PAGE);
+  const { data: trips = [], loading, error } = useDataFetching("trips");
+
+  const filteredTrips = trips.filter((trip) => {
+    const title = (trip.title ?? "").toLowerCase();
+    const desc  = (trip.discerption ?? "").toLowerCase();
+    const loc   = (trip.location ?? "").toLowerCase();
+    const q     = (searchTerm ?? "").toLowerCase();
+    return title.includes(q) || desc.includes(q) || loc.includes(q);
+  });
+
+  const totalPages = Math.max(1, Math.ceil(filteredTrips.length / ITEMS_PER_PAGE));
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
   const currentTrips = filteredTrips.slice(startIndex, endIndex);
 
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
+  const handlePageChange = (page) => setCurrentPage(page);
+  const handleSearch = (term) => { setSearchTerm(term); setCurrentPage(1); };
 
-  const handleSearch = (term) => {
-    setSearchTerm(term);
-    setCurrentPage(1); 
-  };
-
-  if (loading) {
-    return (
-      <div className="container-fluid bg-light min-vh-100">
-        <div className="row">
-          <SidebarPlaceholder />
-          <main className="col-10">
-            <div className="container py-4">
-              <div className="d-flex justify-content-center align-items-center" style={{ height: '50vh' }}>
-                <div className="spinner-border text-primary" role="status">
-                  <span className="visually-hidden">Loading...</span>
-                </div>
-              </div>
-            </div>
-          </main>
-        </div>
-      </div>
-    );
-  }
+  if (loading) { }
+  if (error)   { }
 
   return (
     <div className="container-fluid bg-light min-vh-100">
       <div className="row">
-        <SidebarPlaceholder />
         <main className="col-10">
-        <div className="container py-4">
-          <EventsToolbar onSearch={handleSearch} />
-          <div className="mt-4">
-            {currentTrips.map((t, i) => <EventItemCard key={startIndex + i} variant="trip" {...t} />)}
+          <div className="container py-4">
+            <EventsToolbar onSearch={handleSearch} onAdd={() => navigate('/events/new')} /> {}
+            <div className="mt-4">
+              {currentTrips.length > 0 ? (
+                currentTrips.map((t, i) => (
+                  <EventItemCard key={t.id ?? startIndex + i} variant="trip" {...t} />
+                ))
+              ) : (
+                <div className="text-center text-muted py-5">No trips found.</div>
+              )}
+            </div>
+            <div className="mt-3">
+              <PaginationStatic
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+              />
+            </div>
           </div>
-          <div className="mt-3">
-            <PaginationStatic 
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={handlePageChange}
-            />
-          </div>
-        </div>
         </main>
       </div>
     </div>

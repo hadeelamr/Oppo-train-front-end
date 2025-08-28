@@ -1,48 +1,42 @@
-import { useState, useEffect } from 'react';
-import { MOCK_TRIPS, MOCK_EVENTS } from '../data/mockData';
+// src/hooks/useDataFetching.js
+import { useEffect, useState } from "react";
+import { MOCK_EVENTS, MOCK_TRIPS } from "../data/mockData.js";
 
-export const useDataFetching = (dataType) => {
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+export function useDataFetching(kind = "events") {
   const [data, setData] = useState([]);
+  const [usingMockData, setUsingMockData] = useState(true);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [usingMockData, setUsingMockData] = useState(false);
 
   useEffect(() => {
-    const fetchData = async () => {
+    let alive = true;
+    (async () => {
       setLoading(true);
       setError(null);
-      
       try {
-        const endpoint = dataType === 'trips' ? '/api/trips' : '/api/events';
-        
-      
-        throw new Error('No backend available - using mock data');
-        
-        const response = await fetch(endpoint);
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        const serverData = await response.json();
-        setData(serverData);
-        setUsingMockData(false);
-        
-      } catch (err) {
-        console.warn(`Failed to fetch ${dataType} from server:`, err.message);
-        console.log(`Falling back to mock data for ${dataType}`);
-        
-       
-        const mockData = dataType === 'trips' ? MOCK_TRIPS : MOCK_EVENTS;
-        setData(mockData);
-        setUsingMockData(true);
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+        await sleep(120);
+        if (!alive) return;
 
-    fetchData();
-  }, [dataType]);
+        if (kind === "events") setData(MOCK_EVENTS);
+        else if (kind === "trips") setData(MOCK_TRIPS);
+        else setData([]);
+
+        setUsingMockData(true);
+      } catch (e) {
+        if (!alive) return;
+        setError(e instanceof Error ? e : new Error("Unknown error"));
+        setData([]);
+      } finally {
+        if (alive) setLoading(false);
+      }
+    })();
+
+    return () => { alive = false; };
+  }, [kind]);
 
   return { data, loading, error, usingMockData };
-};
+}
+
+export default useDataFetching;

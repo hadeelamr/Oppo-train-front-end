@@ -1,4 +1,4 @@
-// src/pages/EventAttendees.js
+
 import { useEffect, useMemo, useState } from "react";
 import { Link, NavLink, useParams, useNavigate } from "react-router-dom";
 import {
