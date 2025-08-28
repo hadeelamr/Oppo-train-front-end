@@ -1,8 +1,10 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
 import LoginImage from "../image/f031e5b1caa0632b7cb3d2dc29294fc91b0a771f.png";
 
-export default function Login() {
+export default function Login({ onLogin }) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const containerStyle = {
     display: "flex",
     justifyContent: "center",
@@ -54,31 +56,51 @@ export default function Login() {
     height: "100%",
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // هون ممكن تعملي تحقق (مثلاً email و password مش فاضيين)
+    if (email && password) {
+      onLogin(); // بيغيّر isLoggedIn في App.js لـ true
+    } else {
+      alert("Please enter email and password");
+    }
+  };
+
   return (
     <div style={containerStyle}>
       <div style={boxStyle}>
-        <div style={formStyle}>
+        <form style={formStyle} onSubmit={handleSubmit}>
           <h1 style={{ fontSize: "28px", fontWeight: "bold", marginBottom: "10px" }}>
             Login
           </h1>
           <p style={{ marginBottom: "20px" }}>Login to access your account</p>
           
           <label>Email</label>
-          <input type="email" placeholder="Enter your email" style={inputStyle} />
+          <input 
+            type="email" 
+            placeholder="Enter your email" 
+            style={inputStyle}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
 
           <label>Password</label>
-          <input type="password" placeholder="Enter your password" style={inputStyle} />
+          <input 
+            type="password" 
+            placeholder="Enter your password" 
+            style={inputStyle}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
           <div style={{ textAlign: "right", marginBottom: "20px" }}>
-            <Link to="/forget" style={{ color: "#2563eb", textDecoration: "underline", fontSize: "14px" }}>
+            <a href="/forget" style={{ color: "#2563eb", textDecoration: "underline", fontSize: "14px" }}>
               Forgot Password
-            </Link>
+            </a>
           </div>
 
-          <Link to="/dashboard">
-            <button style={buttonStyle}>Log in</button>
-          </Link>
-        </div>
+          <button type="submit" style={buttonStyle}>Log in</button>
+        </form>
 
         <div style={{ flex: 1 }}>
           <img src={LoginImage} alt="login illustration" style={imageStyle} />
